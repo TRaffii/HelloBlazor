@@ -1,11 +1,8 @@
 @page "/fetchdata"
 @inject HttpClient Http
+@using System.Linq
 
-<h1>Weather forecast</h1>
-
-<p>This component demonstrates fetching data from the server.</p>
-
-@if (forecasts == null)
+@if (items == null)
 {
     <p><em>Loading...</em></p>
 }
@@ -14,42 +11,41 @@ else
     <table class="table">
         <thead>
             <tr>
-                <th>Date</th>
-                <th>Temp. (C)</th>
-                <th>Temp. (F)</th>
-                <th>Summary</th>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Price</th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var forecast in forecasts)
+            @foreach (var item in items)
             {
                 <tr>
-                    <td>@forecast.Date.ToShortDateString()</td>
-                    <td>@forecast.TemperatureC</td>
-                    <td>@forecast.TemperatureF</td>
-                    <td>@forecast.Summary</td>
+                    <td>@item.Id</td>
+                    <td>@item.Name</td>
+                    <td>@item.Price</td>
                 </tr>
             }
+
+            <h3>Sum: @items.Sum(x => x.Price)</h3>
         </tbody>
     </table>
 }
 
 @code {
-    private WeatherForecast[] forecasts;
+    private Item[] items;
 
     protected override async Task OnInitializedAsync()
     {
-        forecasts = await Http.GetFromJsonAsync<WeatherForecast[]>("sample-data/weather.json");
+        items = await Http.GetFromJsonAsync<Item[]>("sample-data/data.json");
     }
 
-    public class WeatherForecast
+
+    public class Item
     {
-        public DateTime Date { get; set; }
+        public int Id { get; set; }
 
-        public int TemperatureC { get; set; }
+        public string Name { get; set; }
 
-        public string Summary { get; set; }
-
-        public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
+        public decimal Price { get; set; }
     }
 }
