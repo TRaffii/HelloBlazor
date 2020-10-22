@@ -1,0 +1,13 @@
+﻿@page "/date"
+
+<h1>How many days left in the current year?</h1>
+
+<h2>Number of days: @DaysLeftInCurrentYear</h2>
+
+
+@code {
+    private int DaysLeftInCurrentYear { get; } = DateTime.IsLeapYear(DateTime.Now.Year) 
+                    ?  366 - DateTime.Now.DayOfYear
+                    :  365 - DateTime.Now.DayOfYear;
+    
+}
