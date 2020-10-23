@@ -5,12 +5,27 @@
 <p>Current count: @currentCount</p>
 
 <button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+<button class="btn btn-primary" @onclick="DecrementCount">Click me</button>
+<br />
 
+<input @bind="@Title" /> 
+<h2>Provided title: @Title</h2>
+<br />
+
+<input @bind="@Birthday" type="date" @bind:event="onchange"/> 
+<h2>Provided birthday: @Birthday.ToShortDateString()</h2>
 @code {
     private int currentCount = 0;
+    private string Title { get; set; } = "Hello, Workshop!";
+    private DateTime Birthday { get; set; } = DateTime.Now;
 
     private void IncrementCount()
     {
         currentCount++;
+    }
+
+    private void DecrementCount()
+    {
+        currentCount--;
     }
 }
